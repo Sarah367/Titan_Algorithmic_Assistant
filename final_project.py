@@ -19,7 +19,7 @@ class CampusNavigationSystem:
         self.node_counter = 0
 
         # Visualization settings...
-        self.node_radius = 20
+        self.node_radius = 40
         self.colors = {
             "node": "lightblue",
             "edge": "black",
@@ -1069,75 +1069,131 @@ class AlgorithmInfo:
 
         self.text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        algorithm_info = """This is an interactive Python application that combines multiple algorithmic modules together. Below are the Big-O complexities of each algorithm.
-        
-        1. BFS (Breadth-First Search): A graph traversal algorithm that explores all neighboring nodes at the current depth prior to progressing to nodes
-        at the next dept level. It guarantees that the shortest path is found within a graph. 
-                - Time Complexity: O(V + E), where "V" is the number of vertices and "E" is the number of edges. BFS contains an array that tracks each vertex and edge, making 
-                                   sure that each is processed only once. 
+        self.text_widget.tag_configure("bold", font=("Georgia", 12, "bold"))
+        self.text_widget.insert(tk.END, "This is an interactive Python application that combines multiple algorithmic modules together. Below are the Big-O complexities of each algorithm.\n\n", "bold")
+        algorithm_info = """ 1. BFS (Breadth-First Search): A graph traversal algorithm that explores all neighboring nodes at the current depth prior to progressing to nodes at the next depth level. 
+        It guarantees that the shortest path is found within a graph. 
+                - Time Complexity: 
+                        • Average-case: O(V + E), where "V" is the number of vertices and "E" is the number of edges. BFS contains an array that tracks each vertex and edge, making 
+                                        sure that each is processed only once. 
+                        • Worst-case: O(V + E)
+                        • Best-case: O(V + E)
         
         2. Dijkstra's Algorithm: Used for graphs with varying weighted edges (no negative edges) in which a priority queue is used to always expand the most promising node 
                                  first. A distance array is also maintained in order to keep track of the minimum distance found so far. It also prevents the unnecessary 
                                  revisiting of nodes, thus enhancing the algorithm's efficiency overall.
-                - Time Complexity: O((V+E)*logV), where "E" is the number of edges and "V" is the number of vertices. Each vertex is extracted from the priority queue only once, 
-                                   and each edge is only examined once.
+                - Time Complexity: 
+                        • Average-case: O((V+E)*logV), where "E" is the number of edges and "V" is the number of vertices. Each vertex is extracted from the priority queue only once, 
+                                        and each edge is only examined once.
+                        • Worst-case: O((V+E)*logV)
+                        • Best-case: O((V+E)*logV)
         
         3. DFS (Depth-First Search): A graph traversal method that starts at a source vertex and explores each path completely until it reaches a vertex with no unvisited neighbors.
                                     Then, it backtracks to examine other unvisited paths, ensuring that all vertices that can be reached from the source node are explored. DFS is unique
                                     due to the fact that it holds an extra visited array in order to account for loops within the graph - making sure that a vertex is not processed 
                                     more than once.
-                - Time Complexity: O(V+E), where "V" is the number of vertices and "E" is the number of edges. This is linear as DFS visits each vertex and each edge in the worst-case
-                                   scenario, regardless.
+                - Time Complexity: 
+                        • Average-case: O(V+E), where "V" is the number of vertices and "E" is the number of edges. This is linear as DFS visits each vertex and each edge in the worst-case
+                                        scenario, regardless.
+                        • Worst-case: O(V+E)
+                        • Best-case: O(V+E)
         
         4. Prim's MST: A greedy algorithm that adds edges with the minimum edge weight one at a time, gradually building a minimum spanning tree. 
-                - Time Complexity: O(V^2), where "V" is the number of vertices. This is because the vertices are scanned for single iteration in order to update and recalculate the newest 
-                                   minimum value. Since this will occur "V" times, the algorithm would run in (V * V), or V squared.
-        
+                - Time Complexity: 
+                        • Average-case: O(E log V), where "E" is the number of edges and "V" is the number of vertices. This is because every edge is considered once and can be added to the 
+                                        priority queue, with each priority queue operation taking O(log V) time. 
+                        • Worst-case: O(E log V)
+                        • Best-case: O(E log V)
+
         5. Greedy Algorithm: Select the best looking (or locally optimal) choice at each step with the goal of reaching a globally optimal - or best overall - solution. In regards to the 
                             study scheduler module, the greedy approach continuously selects each task with the smallest value/time ratio. 
-                - Time Complexity: O(n log n), where "n" is the input size. This is due to the fact that most greedy algorithms utilize a priority queue, in which each push/pop is O(log n).
-                                   However, the greedy algorithm must do this "n" times, meaning that the final complexity will be O(n * log n).
+                - Time Complexity: 
+                        • Average-case: O(n log n), where "n" is the input size. This is due to the fact that most greedy algorithms utilize a priority queue, in which each push/pop is O(log n).
+                                        However, the greedy algorithm must do this "n" times, meaning that the final complexity will be O(n * log n).
+                        • Worst-case: O(n log n)
+                        • Best-case: O(n log n)
 
         6. Dynamic Programming (Knapsack): Used in a scenario where there are n distinct items and a total weight capacity of W. Each item has a weight (w) and value (v) associated with it. 
                                            A DP table is created in which the row represents the item and the columns represent the weight capacity. Each cell holds the maximum value 
                                            achievable. Thus, the main idea is to maximize the value whilst staying within the limited weight capacity. In every iteration, DP considers whether
                                            to include/exclude a particular item based on if it would have a higher value and stay within the weight limitation. Thus, it is considering multiple
                                            combinations at each step.
-                - Time Complexity: O(n * W), where "n" is the input size and "W" is the weight capacity. This is because the DP table has n rows and W columns (one for each weight capacity), 
-                                   meaning that the total amount of iterations performed throughout the table is n * W.  
-                                           
+                - Time Complexity: 
+                        • Average-case: O(n * W), where "n" is the input size and "W" is the weight capacity. This is because the DP table has n rows and W columns (one for each weight capacity), 
+                                        meaning that the total amount of iterations performed throughout the table is n * W.  
+                        • Worst-case: O(n * W)
+                        • Best-case: O(n * W)
+
         7. Naive Search: The simplest string-matching algorithm that checks for the pattern over the given text character by character, repeatedly checking for a match. This is repeated until the 
                          end of the text has been reached. 
-                - Time Complexity: O((n-m+1)*m), where "n" is the length of the text and "m" is the length of the pattern. This occurs when all characters in both the text (n) and the pattern (m) 
-                                   are the same except for the very last character, which causes the algorithm to repeatedly compare the matching characters for every iteration. 
+                - Time Complexity (DIFFERING COMPLEXITIES): 
+                        • Average-case: O(n + m), where "n" is the length of the text and "m" is the length of the pattern. Since mismatches usually occur early, very few characters are checked each time 
+                                        meaning that the algorithm behaves linearly.
+                        • Worst-case: O((n-m+1)*m); This occurs when all characters in both the text (n) and the pattern (m) are the same except for the very last character, which causes the algorithm to 
+                                      repeatedly compare the matching characters for every iteration. 
+                        • Best-case: O(n); This occurs if the pattern does not have any characters that match the text. This means that the each character fails immediately with only 1 comparison per 
+                                    window.
 
         8. Rabin-Karp: This algorithm converts the strings into a numeric fingerprint (or hash) and compares the hashes against each other. If the hashes between the text and the pattern differ, 
                        then the algorithm quickly skips it. If the hashes do match, then real character comparisons are performed. To go into further detail, a rolling hash is used in which the 
                        hash of the pattern is computed and then the hashes of all substrings (or words) within a text are computed for comparison. If the hashes between the pattern and substring 
                        matches, then real character comparison is performed to double-check and avoid hash collisions.
-                - Time Complexity: O(n), where "n" represents the input size. Since the hashes of the pattern and substrings are "precomputed", it takes linear time to pass through the string and
-                                   find any matches. 
+                - Time Complexity (DIFFERING COMPLEXITIES): 
+                        • Average-case: Θ(n + m) ≈ Θ(n); This occurs when collisions are rare and the algorithm behaves in linear time.
+                        • Worst-case: O(n * m); The worst case occurs when there are many hash collisions, which lead to full character comparisons being performed. 
+                        • Best-case: O(n), where "n" represents the input size. Since the hashes of the pattern and substrings are "precomputed", it takes linear time to pass through the string and
+                                   find any matches. The best case is when no hash collisions occur.
 
         9. KMP (Knuth-Morris-Pratt): This algorithm preprocesses the pattern by building an array known as LPS (Longest Prefix Suffix). Essentially, the algorithm is avoiding redundant comparisons 
                                     by storing the length of the longest prefix that has been found. If a mismatch occurs, the algorithm simply skips over the longest prefix and continues trying to 
                                     find a viable match. So instead of starting over, the algorithm is able to "remember" whether the text already includes some of the pattern and prevents itself from
                                     rechecking matched characters. This is great for repetitive patterns. Also, there is no hashing used within this algorithm, meaning that it is not susceptible to collisions.
-                - Time Complexity: O(n+m), where "n" represents the length of the text and "m" represents the length of the pattern. This is because building the LPS array takes O(m) time while 
+                - Time Complexity: 
+                        • Average-case: O(n+m), where "n" represents the length of the text and "m" represents the length of the pattern. This is because building the LPS array takes O(m) time while 
                                 searching for the pattern within the text takes O(n) time, since the text is only scanned once. 
-        
-        ======================================================== P vs NP Hard ========================================================
-        A polynomial (P) problem is considered efficent as it finishes in a reasonable amount of time as the input size grows. On the other hand, Non-Deterministic Polynomial (NP) problems are easy to 
-        verify, but difficult to solve. NP hard problems are not able to be solved in polynomial time, and the main goal is to find a survivable solution - not a "perfect" solution. In order to find 
-        out if a problem is considered "NP-hard", you can use reduction (or proof by contradiction) and compare the problem with another NP-hard problem. For example, if you suspect that problem A is an 
-        NP-hard problem and want to prove it as such, you can compare Problem A with a well-known NP-hard problem that can be referred to as Problem B. If Problem B can be readily reduced to Problem A, then 
-        this means that Problem A is NP-hard since it contains the same level of difficulty as Problem B. Thus, reduction and logical reasoning can be used to prove that a problem is NP-hard. An example of 
-        an NP-hard problem is the previously discussed 0/1 Knapsack problem that was used in the Study Planner Module. 
-         
+                        • Worst-case: O(n+m)
+                        • Best-case: O(n+m)
          """
-
+        
         self.text_widget.insert(tk.END, algorithm_info)
         self.text_widget.config(state=tk.DISABLED)
-        text_frame.configure(style="TFrame")
+        pnp_frame = ttk.Frame(self.frame)
+        pnp_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=(0,20))
+
+        self.pnp_text = tk.Text(
+            pnp_frame,
+            wrap=tk.WORD,
+            font=("Georgia", 11),
+            bg = '#ffffff',
+            relief=tk.FLAT,
+            borderwidth=2,
+            padx=15,
+            pady=15,
+            height=12
+        )
+
+        pnp_scroll = ttk.Scrollbar(pnp_frame, orient=tk.VERTICAL, command=self.pnp_text.yview)
+        self.pnp_text.configure(yscrollcommand=pnp_scroll.set)
+
+        self.pnp_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        pnp_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        self.pnp_text.tag_configure("bold", font=("Georgia", 12, "bold"))
+        self.pnp_text.insert(tk.END, "P vs NP Hard:\n\n", "bold")
+
+        pnp_info = (
+            """A polynomial-time (P) problem is considered efficient if it finishes in a reasonable amount of time as the input size grows. In contrast, Non-Deterministic Polynomial (NP) problems are easy to verify but difficult to solve. NP-hard problems cannot be solved in polynomial time, and the objective is often to find a survivable or “good enough” solution rather than a perfect one.
+            To determine whether a problem is NP-hard, we use reduction, which acts like a proof by contradiction. If you suspect that Problem A is NP-hard, you compare it to a well-known NP-hard problem that can be referred to as Problem B. If Problem B can be readily reduced to Problem A, then Problem A is NP-hard since it contains the same level of difficulty as Problem B. Thus, 
+            reduction and logical reasoning can be used to prove that a problem is NP-hard.
+            An example of an NP-hard problem is the 0/1 Knapsack problem discussed in the Study Planner Module. This problem is NP-hard because finding an optimal solution is difficult, but verifying a solution is quite easy. 
+            By creating both the Greedy Scheduler and DP method for the Study Planner module, I experienced firsthand why the 0/1 Knapsack problem is classified as NP-hard. Although checking to see if a set of tasks can be completed within the time constraint is very quick, determining the best possible combination becomes increasingly difficult as the number of tasks rises. The 
+            pseudo-polynomial time complexity within the DP algorithm demonstrated to me how fast the computation can become costly when the available time (W) increases. This illustrates the significance of NP-hard problems in practical computing, since we simply do not have the resources to always compute the "perfect" solution. Therefore, programmers turn to heuristics - like 
+            the greedy approach - to arrive at "good enough" answers within a reasonable time frame. This trade-off between finding optimal solutions and receiving solutions within a quick time frame lies at the core of P vs NP, which I understood while completing this project.
+            """
+        )
+
+        self.pnp_text.insert(tk.END, pnp_info)
+        self.pnp_text.config(state=tk.DISABLED)
+        
 class allModules:
     def __init__(self, root):
         self.root = root
