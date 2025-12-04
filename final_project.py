@@ -17,6 +17,7 @@ class CampusNavigationSystem:
         self.nodes = {} # dictionary to store buildings
         self.edges = {} # dictionary to store paths
         self.node_counter = 0
+        self.resizing_node = None
 
         # Visualization settings...
         self.node_radius = 40
@@ -188,20 +189,51 @@ class CampusNavigationSystem:
         self.status_var.set(f"Added building: {name}")
 
     def start_drag(self, event):
+        # detect if shift is being held
+        is_shift = bool(event.state & 0x0001)
+
         for node, (x,y) in self.nodes.items():
-            distance = math.sqrt((x-event.x) ** 2 + (y-event.y) ** 2)
+            distance = math.sqrt((x-event.x)**2 + (y-event.y)**2)
+
+            # if clicking inside the circle...
             if distance <= self.node_radius:
+                # if doing shift (so shift + click)
+                if is_shift:
+                    # then resize the node!
+                    self.resizing_node = node
+                    return
+                
+                # otherwise revert back to normal dragging...
                 self.dragging_node = node
-                break
-    
+                self.drag_offset_x = x-event.x
+                self.drag_offset_y = y - event.y
+                return
+
     def drag_node(self, event):
-        if self.dragging_node:
-            self.nodes[self.dragging_node] = (event.x, event.y)
+        if self.resizing_node:
+            node = self.resizing_node
+            x, y = self.nodes[node]
+            # the new radius is the distance from the center
+            new_radius = int(math.sqrt((x-event.x)**2 + (y-event.y)**2))
+
+            # clamp the size so that the nodes aren't too small or large
+            new_radius = max(10, min(new_radius,100))
+
+            self.node_radius = new_radius
             self.draw_graph()
+            return
+        
+        # normal dragging
+        if self.dragging_node:
+            new_x = event.x + self.drag_offset_x
+            new_y = event.y + self.drag_offset_y
+            self.nodes[self.dragging_node] = (new_x, new_y)
+            self.draw_graph()
+            return
     
     def stop_drag(self, event):
-        if self.dragging_node:
-            self.dragging_node = None
+        self.resizing_node = None
+        self.dragging_node = None
     
     def add_edge(self):
         start = self.start_node_var.get()
