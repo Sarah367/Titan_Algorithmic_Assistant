@@ -438,7 +438,7 @@ class CampusNavigationSystem:
         else:
             results_text += "No path found from {start} to {end}.\n\n"
         
-        results_text += f"Traversal Order: {' -> '.join(visited)}"
+        #results_text += f"Traversal Order: {' -> '.join(visited)}"
 
         self.status_var.set(f"{self.current_algorithm} completed")
         self.show_results_window(results_text)
